@@ -9,6 +9,10 @@ on:
       - 'npm_modules/*/package.json'
   workflow_dispatch:
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
@@ -61,8 +65,6 @@ jobs:
 
       - name: Publish @snap/valdi to npm
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-eslint-plugin:
     needs: detect-changes
@@ -89,6 +91,4 @@ jobs:
 
       - name: Publish @snap/eslint-plugin-valdi to npm
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
