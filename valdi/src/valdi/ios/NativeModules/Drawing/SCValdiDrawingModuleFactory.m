@@ -13,6 +13,7 @@
 #import "valdi/ios/Text/SCValdiFontManager.h"
 #import "valdi/ios/SCValdiContext.h"
 #import "valdi/ios/Views/SCValdiLabel.h"
+#import "valdi/ios/Text/SCValdiAttributedText.h"
 
 #import "valdi_core/SCValdiError.h"
 
@@ -54,6 +55,17 @@
 }
 
 - (SCValdiDrawingSize * _Nonnull)measureTextWithText:(NSString * _Nonnull)text maxWidth:(NSNumber * _Nullable)maxWidth maxHeight:(NSNumber * _Nullable)maxHeight maxLines:(NSNumber * _Nullable)maxLines
+{
+    return [self _measureText:text maxWidth:maxWidth maxHeight:maxHeight maxLines:maxLines];
+}
+
+- (SCValdiDrawingSize * _Nonnull)measureAttributedTextWithAttributedText:(SCValdiWrappedValue * _Nonnull)attributedText maxWidth:(NSNumber * _Nullable)maxWidth maxHeight:(NSNumber * _Nullable)maxHeight maxLines:(NSNumber * _Nullable)maxLines
+{
+    SCValdiAttributedText *valdiAttributedText = [[SCValdiAttributedText alloc] initWithWrappedValue:attributedText];
+    return [self _measureText:valdiAttributedText maxWidth:maxWidth maxHeight:maxHeight maxLines:maxLines];
+}
+
+- (SCValdiDrawingSize * _Nonnull)_measureText:(id)text maxWidth:(NSNumber * _Nullable)maxWidth maxHeight:(NSNumber * _Nullable)maxHeight maxLines:(NSNumber * _Nullable)maxLines
 {
     SCValdiFontAttributes *fontAttributes = [NSAttributedString fontAttributesWithFont:_font
                                                                                     color:nil
